@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/background_chart">
+
+
+    <Button
+        android:id="@+id/view_polls_button"
+        android:layout_width="319dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/button_shape_view"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="@string/navigate_polls_button"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/add_poll_button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/add_poll_button" />
+
+    <Button
+        android:id="@+id/add_poll_button"
+        android:layout_width="313dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_shape_view"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="@string/add_poll_button_text"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/view_polls_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_title"
+        app:layout_constraintVertical_bias="0.842" />
+
+    <TextView
+        android:id="@+id/welcome_title"
+        android:layout_width="371dp"
+        android:layout_height="248dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="@string/welcome_title"
+        android:textColor="@color/blue"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="248dp"
+        android:layout_height="215dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:indeterminateDrawable="@drawable/loader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

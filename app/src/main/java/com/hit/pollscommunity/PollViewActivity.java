@@ -1,9 +1,11 @@
 package com.hit.pollscommunity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -179,10 +181,10 @@ public class PollViewActivity extends AppCompatActivity implements OnChartValueS
         PieData pieData = new PieData(pieDataSet);
         pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pieData.setValueFormatter(new DecimalRemover());
-        pieData.setValueTextSize(20);
+        pieData.setValueTextSize(spToPx(10f,PollViewActivity.this));
         pieChart.setData(pieData);
         pieChart.animateXY(100, 1000);
-        pieChart.setCenterTextSizePixels(50);
+        pieChart.setCenterTextSizePixels(spToPx(20f,PollViewActivity.this));
         pieChart.invalidate();
         pieChart.notifyDataSetChanged();
 
@@ -223,7 +225,7 @@ public class PollViewActivity extends AppCompatActivity implements OnChartValueS
                 if(poll.getOptions().get(i).getNumberOfVotes()==(int)e.getY()){
                     highlightedName = poll.getOptions().get(i).getOptionName();
                     position = i;
-                    pieChart.setCenterText(getResources().getString(R.string.you_choose_text) + highlightedName);
+                    pieChart.setCenterText(getResources().getString(R.string.you_choose_text) +"\n"+ highlightedName);
                     spinner.setSelection(position+1);
                     break;
                 }
@@ -233,5 +235,9 @@ public class PollViewActivity extends AppCompatActivity implements OnChartValueS
 
     @Override
     public void onNothingSelected() {
+    }
+
+    private int spToPx(float sp, Context context) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics());
     }
 }

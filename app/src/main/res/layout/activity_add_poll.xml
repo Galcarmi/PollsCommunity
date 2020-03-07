@@ -1,74 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/background_chart">
 
-    <Button
-        android:id="@+id/add_poll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/button_shape_view"
-        android:shadowColor="#A8A8A8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="@string/create_poll"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
-
-    <EditText
-        android:id="@+id/poll_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/add_poll_name_placeholder"
-        android:inputType="textPersonName"
-        android:backgroundTint="@color/black"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-        <LinearLayout
-            android:id="@+id/option_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
-
     <TextView
         android:id="@+id/textView"
-        android:layout_width="311dp"
-        android:layout_height="58dp"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="100"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -77,35 +21,41 @@
         android:textColor="@color/blue"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/poll_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+         />
+
+    <EditText
+        android:id="@+id/poll_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="78dp"
+        android:layout_marginEnd="78dp"
+        android:layout_marginBottom="40dp"
+        android:hint="@string/add_poll_name_placeholder"
+        android:inputType="textPersonName"
+        android:backgroundTint="@color/black"
+        android:gravity="center"
+        />
+
 
     <LinearLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="41dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/poll_name">
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
 
         <Button
             android:id="@+id/add_option"
             android:layout_width="0px"
-            android:layout_weight="30"
-            android:layout_height="match_parent"
+            android:layout_height="38dp"
             android:layout_marginStart="28dp"
             android:layout_marginEnd="8dp"
+            android:layout_weight="30"
             android:background="@drawable/button_shape_view"
             android:shadowColor="#A8A8A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
             android:shadowRadius="5"
             android:text="@string/add_button_text"
             android:textColor="#FFFFFF"
@@ -114,13 +64,45 @@
         <EditText
             android:id="@+id/already_voted_text"
             android:layout_width="0px"
-            android:layout_weight="70"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_weight="70"
             android:backgroundTint="@color/black"
-            android:ems="10"
             android:gravity="center"
             android:hint="@string/add_option_placeholder"
             android:inputType="textPersonName" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="50"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginBottom="30dp"
+   >
+
+        <LinearLayout
+            android:id="@+id/option_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/add_poll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/button_shape_view"
+        android:shadowColor="#A8A8A8"
+        android:text="@string/create_poll"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+
+</LinearLayout>

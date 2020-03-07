@@ -106,6 +106,8 @@ public class RegisterActivity extends Activity {
         else{
             registerBtn.setEnabled(false);
             registerBtn.setAlpha(0.5f);
+            goToLoginBtn.setEnabled(false);
+            goToLoginBtn.setAlpha(0.5f);
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -120,6 +122,8 @@ public class RegisterActivity extends Activity {
                                         mAuth.getCurrentUser().delete();
                                         registerBtn.setEnabled(true);
                                         registerBtn.setAlpha(1f);
+                                        goToLoginBtn.setEnabled(true);
+                                        goToLoginBtn.setAlpha(1f);
                                     }
                                     else{
                                         Toast.makeText(RegisterActivity.this, getResources().getString(R.string.login_successfully_toast),Toast.LENGTH_SHORT).show();
@@ -130,6 +134,8 @@ public class RegisterActivity extends Activity {
                         }else{
                             registerBtn.setEnabled(true);
                             registerBtn.setAlpha(1f);
+                            goToLoginBtn.setEnabled(true);
+                            goToLoginBtn.setAlpha(1f);
                             try {
                                 throw task.getException();
                             } catch(FirebaseAuthWeakPasswordException e) {

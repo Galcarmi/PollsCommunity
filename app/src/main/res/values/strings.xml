@@ -55,4 +55,6 @@
     <string name="please_enter_lastname">Please Enter Lastname</string>
     <string name="please_enter_password">Please Enter Password</string>
     <string name="please_enter_email">Please Enter Email</string>
+    <string name="my_polls_button_text">My Polls</string>
+    <string name="global_polls_button_text">Global Polls</string>
 </resources>

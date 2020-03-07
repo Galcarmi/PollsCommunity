@@ -56,4 +56,6 @@
     <string name="please_enter_lastname">הכנס בבקשה שם משפחה</string>
     <string name="please_enter_password">הכנס בבקשה סיסמא</string>
     <string name="please_enter_email">הכנס בבקשה מייל</string>
+    <string name="my_polls_button_text">הסקרים שלי</string>
+    <string name="global_polls_button_text">כל הסקרים</string>
 </resources>

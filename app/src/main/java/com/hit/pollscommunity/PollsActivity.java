@@ -2,12 +2,18 @@ package com.hit.pollscommunity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,29 +27,74 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PollsActivity extends Activity {
+public class PollsActivity extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference pollsRef = database.getReference("/Polls");
+    private RecyclerView recyclerView;
+    private PollAdapter globalAdapter;
+    private PollAdapter myAdapter;
+    private String viewMode = "global_polls";
 
+
+
+    ////option menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.polls_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    ///option menu operations
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_global_polls:
+                viewMode="global_polls";
+                setViewMode();
+                return true;
+            case R.id.menu_item_my_polls:
+                viewMode = "my_polls";
+                setViewMode();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_polls);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler);
+        recyclerView = findViewById(R.id.recycler);
+
+
+
+
         recyclerView.setHasFixedSize(true);
-
-        final List<Poll> polls = new ArrayList<>();
-        final PollAdapter adapter = new PollAdapter(polls);
-
+        final List<Poll> globslPolls = new ArrayList<Poll>();
+        final List<Poll> myPolls = new ArrayList<Poll>();
+        globalAdapter = new PollAdapter(globslPolls);
+        myAdapter = new PollAdapter(myPolls);
         Utils.checkForInternetConnection(PollsActivity.this);
 
 
-        adapter.setPollListener(new PollAdapter.PollListener() {
+        setViewMode();
+
+        PollAdapter.PollListener pollListener = new PollAdapter.PollListener() {
             @Override
             public void onPollDelete(final int position, View view) {
-                pollsRef.child(polls.get(position).getKey()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                Poll currentPoll;
+                if(viewMode.equals("global_polls")){
+                    currentPoll=globslPolls.get(position);
+                }
+                else{
+                    currentPoll=myPolls.get(position);
+                }
+                pollsRef.child(currentPoll.getKey()).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(!task.isSuccessful()){
@@ -56,39 +107,68 @@ public class PollsActivity extends Activity {
             @Override
             public void onPollClicked(int position, View view) {
                 Intent i = new Intent(PollsActivity.this,PollViewActivity.class);
-                i.putExtra("poll",polls.get(position));
+                if(viewMode.equals("global_polls")){
+                    i.putExtra("poll",globslPolls.get(position));
+                }
+                else{
+                    i.putExtra("poll",myPolls.get(position));
+                }
                 startActivity(i);
             }
-        });
+        };
 
-        recyclerView.setAdapter(adapter);
-
+        globalAdapter.setPollListener(pollListener);
+        myAdapter.setPollListener(pollListener);
 
         pollsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Poll newPoll = dataSnapshot.getValue(Poll.class);
-                polls.add(newPoll);
-                adapter.notifyDataSetChanged();
+                globslPolls.add(newPoll);
+                globalAdapter.notifyDataSetChanged();
+
+                if(newPoll.getCreator().getUid().equals(LoggedUser.getInstance().getUid())){
+                    myPolls.add(newPoll);
+                    myAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Poll changedPoll = dataSnapshot.getValue(Poll.class);
-                for(int i=0;i<polls.size();i++){
-                    if(polls.get(i).getKey().equals(dataSnapshot.getKey())){
-                        polls.set(i,changedPoll);
-                        adapter.notifyItemChanged(i);
+                for(int i=0;i<globslPolls.size();i++){
+                    if(globslPolls.get(i).getKey().equals(dataSnapshot.getKey())){
+                        globslPolls.set(i,changedPoll);
+                        globalAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                if(changedPoll.getCreator().getUid().equals(LoggedUser.getInstance().getUid())){
+                    for(int i=0;i<myPolls.size();i++){
+                        if(myPolls.get(i).getKey().equals(dataSnapshot.getKey())){
+                            myPolls.set(i,changedPoll);
+                            myAdapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                for(int i=0;i<polls.size();i++){
-                    if(polls.get(i).getKey().equals(dataSnapshot.getKey())){
-                        polls.remove(i);
-                        adapter.notifyItemRemoved(i);
+                Poll deletedPoll = dataSnapshot.getValue(Poll.class);
+                for(int i=0;i<globslPolls.size();i++){
+                    if(globslPolls.get(i).getKey().equals(dataSnapshot.getKey())){
+                        globslPolls.remove(i);
+                        globalAdapter.notifyItemRemoved(i);
+                    }
+                }
+
+                if(deletedPoll.getCreator().getUid().equals(LoggedUser.getInstance().getUid())) {
+                    for(int i=0;i<myPolls.size();i++){
+                        if(myPolls.get(i).getKey().equals(dataSnapshot.getKey())){
+                            myPolls.remove(i);
+                            myAdapter.notifyItemRemoved(i);
+                        }
                     }
                 }
             }
@@ -103,5 +183,15 @@ public class PollsActivity extends Activity {
 
             }
         });
+    }
+
+    private void setViewMode(){
+        if(viewMode.equals("my_polls")){
+            recyclerView.setAdapter(myAdapter);
+
+        }
+        else{
+            recyclerView.setAdapter(globalAdapter);
+        }
     }
 }

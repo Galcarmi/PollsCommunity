@@ -21,7 +21,7 @@ public class LoginActivity extends Activity {
     private EditText emailField;
     private EditText passwordField;
     private Button loginBtn;
-    private Button registerBtn;
+    private Button goToRegisterBtn;
 
     private FirebaseAuth mAuth= FirebaseAuth.getInstance();
     @Override
@@ -32,7 +32,7 @@ public class LoginActivity extends Activity {
         emailField = findViewById(R.id.email_input);
         passwordField = findViewById(R.id.password_input);
         loginBtn = findViewById(R.id.login_button);
-        registerBtn = findViewById(R.id.register_button);
+        goToRegisterBtn = findViewById(R.id.register_button);
 
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -43,7 +43,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        registerBtn.setOnClickListener(new View.OnClickListener(){
+        goToRegisterBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
@@ -61,6 +61,8 @@ public class LoginActivity extends Activity {
     private void signIn() {
         loginBtn.setEnabled(false);
         loginBtn.setAlpha(0.5f);
+        goToRegisterBtn.setEnabled(false);
+        goToRegisterBtn.setAlpha(0.5f);
 
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
@@ -69,6 +71,8 @@ public class LoginActivity extends Activity {
             Toast.makeText(LoginActivity.this, getResources().getString(R.string.login_missing_username_or_password_toast),Toast.LENGTH_LONG).show();
             loginBtn.setEnabled(true);
             loginBtn.setAlpha(1f);
+            goToRegisterBtn.setEnabled(true);
+            goToRegisterBtn.setAlpha(1f);
             return;
         }
         else{
@@ -79,6 +83,8 @@ public class LoginActivity extends Activity {
                         Toast.makeText(LoginActivity.this, getResources().getString(R.string.wrong_username_or_password),Toast.LENGTH_SHORT).show();
                         loginBtn.setEnabled(true);
                         loginBtn.setAlpha(1f);
+                        goToRegisterBtn.setEnabled(true);
+                        goToRegisterBtn.setAlpha(1f);
 
                     }
                     else{

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -26,7 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
-public class PollViewActivity extends Activity implements OnChartValueSelectedListener {
+public class PollViewActivity extends AppCompatActivity implements OnChartValueSelectedListener {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference pollsRef = database.getReference("/Polls");
@@ -37,9 +42,32 @@ public class PollViewActivity extends Activity implements OnChartValueSelectedLi
     private Spinner spinner;
     private int votePosition;
     private TextView pollName;
-    private Button detailsButton;
     private boolean alreadyVotedFlag=false;
 
+
+    ////option menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.poll_details_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    ///option menu operations
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_view_details:
+                Intent i = new Intent(PollViewActivity.this,PollDetailsActivity.class);
+                i.putExtra("poll",poll);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +77,6 @@ public class PollViewActivity extends Activity implements OnChartValueSelectedLi
         voteBtn = findViewById(R.id.vote_button);
         spinner = findViewById(R.id.options_dropdown);
         pollName = findViewById(R.id.poll_name);
-        detailsButton = findViewById(R.id.poll_details_button);
         View backgroundImage = findViewById(R.id.layout);
         Drawable background = backgroundImage.getBackground();
         background.setAlpha(95);
@@ -103,15 +130,6 @@ public class PollViewActivity extends Activity implements OnChartValueSelectedLi
                         }
                     });
                 }
-            }
-        });
-
-        detailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(PollViewActivity.this,PollDetailsActivity.class);
-                i.putExtra("poll",poll);
-                startActivity(i);
             }
         });
 

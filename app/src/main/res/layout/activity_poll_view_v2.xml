@@ -49,13 +49,14 @@
         app:layout_constraintTop_toBottomOf="@+id/poll_name"
         app:layout_constraintVertical_bias="0.74" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/constraintLayout5"
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="43dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/pieChart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -66,28 +67,19 @@
 
         <Button
             android:id="@+id/vote_button"
-            android:layout_width="0dp"
-            app:layout_constraintHorizontal_weight="0.15"
-            android:layout_height="39dp"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/button_shape_view"
-            android:text="@string/vote_button_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/options_dropdown"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="@string/vote_button_text" />
 
         <Spinner
             android:id="@+id/options_dropdown"
             android:layout_width="0dp"
-            app:layout_constraintHorizontal_weight="0.85"
-            android:layout_height="37dp"
-            android:layout_marginStart="68dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.941" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent"
+            android:layout_weight="70"
+            android:layout_marginEnd="20dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
